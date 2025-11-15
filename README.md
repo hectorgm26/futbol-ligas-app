@@ -25,7 +25,7 @@
 
 ## 📖 Descripción
 
-Aplicación móvil desarrollada con **Ionic 7**, **Angular 20 (Standalone)** y **Capacitor ** que permite consultar las clasificaciones actuales de las principales ligas europeas de fútbol. La app consume datos de TheSportsDB API y muestra información detallada de equipos, puntos, forma reciente y estadísticas completas.
+Aplicación móvil desarrollada con **Ionic 8**, **Angular 20 (Standalone)** y **Capacitor 7** que permite consultar las clasificaciones actuales de las principales ligas europeas de fútbol. La app consume datos de TheSportsDB API y muestra información detallada de equipos, puntos, forma reciente y estadísticas completas.
 
 Este proyecto está diseñado como **material de referencia** para desarrolladores que trabajan con:
 - ✅ Angular Standalone Components
