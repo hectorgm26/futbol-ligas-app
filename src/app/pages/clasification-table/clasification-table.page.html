@@ -1,0 +1,203 @@
+<ion-header [translucent]="true">
+  <ion-toolbar class="ion-text-center">
+    <ion-title>Clasificación Ligas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="clasificationTable" [fullscreen]="true">
+
+    <ion-grid>
+        <ion-row class="ion-no-border">
+
+            <ion-col size="8">
+
+                <!-- con leagues$ se ejecuta el observable y se obtiene el valor emitido -->
+                @if(leagues$ | async; as leagues) {
+                    <ion-select 
+                        label="Liga" 
+                        label-placement="stacked" 
+                        [(ngModel)]="idLeagueSelected"
+                        (ionChange)="getSeasons()"
+                    > <!-- El ionChange se dispara cuando se selecciona una opción, y llama al método getSeasons() -->
+
+                    @for (league of leagues; track league.idLeague) {
+                        <ion-select-option [value]="league.idLeague">
+                            {{ league.strLeagueAlternate || league.strLeague }}
+                        </ion-select-option>
+                    }
+
+                    </ion-select>
+                }
+
+            </ion-col>
+
+            <ion-col size="4">
+
+                @if(seasons$ | async; as seasons) {
+                    <ion-select 
+                        label="Temporada" 
+                        label-placement="stacked" 
+                        [(ngModel)]="seasonSelected"
+                        (ionChange)="changeClasification()"
+                    >
+
+                    @for (season of seasons; track season.strSeason) {
+                        <ion-select-option [value]="season.strSeason">
+                            {{ season.strSeason  }}
+                        </ion-select-option>
+                    }
+
+                    </ion-select>
+                }
+
+            </ion-col>
+
+        </ion-row>
+
+        @if(clasification$ | async; as clasifications) {
+
+            @if(clasifications.length === 0) {
+                <ion-row>
+                    <ion-col size="12">
+                        <ion-text class="ion-text-center">No hay datos</ion-text>
+                    </ion-col>
+                </ion-row>
+            } @else {
+
+                <ion-row>
+
+                    <ion-col size="1">
+
+                    </ion-col>
+
+                    <ion-col size="1">
+
+                    </ion-col>
+
+                    <ion-col size="3">
+
+                    </ion-col>
+                    
+                    <ion-col size="5" class="ion-text-center">
+                        Últimos 5 partidos
+                    </ion-col>
+
+                    <ion-col size="2" class="ion-text-center">
+                        Puntos
+                    </ion-col>
+
+                </ion-row>
+
+                @for (clasification of clasifications; track clasification.idStanding; let index = $index) {
+
+                    <ion-row [attr.id]="'row-' + index">
+
+                        <ion-col size="1" class="ion-align-self-center">
+                            {{ clasification.intRank < 10 ? '0' : ''}}{{ clasification.intRank }}
+                        </ion-col>
+
+                        <ion-col size="1" class="ion-align-self-center">
+                            <ion-img [src]="clasification.strBadge">
+
+                            </ion-img>
+                        </ion-col>
+
+                        <ion-col size="3" class="ion-align-self-center">
+                            {{ clasification.strTeam }}
+                        </ion-col>
+                    
+                        <ion-col size="5" class="ion-align-self-center ion-text-center">
+                            
+                            @for (form of clasification.strForm | reverse; track form; let last = $last) {
+
+                                @switch (form) {
+
+                                    @case('W') {
+                                        <ion-icon 
+                                            class="icon-result" 
+                                            name="checkmark-circle" 
+                                            color="success"
+                                            [ngClass]="{
+                                                'recent-result': last
+                                            }">
+                                        </ion-icon>
+                                    }
+
+                                    @case('D') {
+                                        <ion-icon
+                                            class="icon-result" 
+                                            name="remove-circle" 
+                                            color="medium"
+                                            [ngClass]="{
+                                                'recent-result': last
+                                            }">
+                                        </ion-icon>
+                                    }
+
+                                    @case('L') {
+                                        <ion-icon 
+                                            class="icon-result" 
+                                            name="close-circle" 
+                                            color="danger"
+                                            [ngClass]="{
+                                                'recent-result': last
+                                            }">
+                                        </ion-icon>
+                                    }
+                                }
+                            }
+
+                        </ion-col>
+
+                        <ion-col size="2" class="ion-align-self-center ion-text-center">
+                            {{ clasification.intPoints < 10 ? '0': ''}}{{ clasification.intPoints }}
+                        </ion-col>
+
+                    </ion-row>
+
+
+                    <ion-popover 
+                        [trigger]="'row-' + index"
+                        triggerAction="click"
+                        size="cover">
+
+                        <ng-template>
+                            <ion-content class="ion-padding">
+                                
+                                <ion-grid>
+
+                                    <ion-row class="ion-text-center">
+                                        <ion-col>MP</ion-col>
+                                        <ion-col>W</ion-col>
+                                        <ion-col>D</ion-col>
+                                        <ion-col>L</ion-col>
+                                        <ion-col>GF</ion-col>
+                                        <ion-col>GA</ion-col>
+                                        <ion-col>GD</ion-col>
+                                    </ion-row>
+
+                                    <ion-row class="ion-text-center ion-no-border">
+                                        <ion-col>{{ clasification.intPlayed }}</ion-col>
+                                        <ion-col>{{ clasification.intWin }}</ion-col>
+                                        <ion-col>{{ clasification.intDraw }}</ion-col>
+                                        <ion-col>{{ clasification.intLoss }}</ion-col>
+                                        <ion-col>{{ clasification.intGoalsFor }}</ion-col>
+                                        <ion-col>{{ clasification.intGoalsAgainst }}</ion-col>
+                                        <ion-col>{{ clasification.intGoalDifference}}</ion-col>
+                                    </ion-row>
+                                
+                                </ion-grid>
+
+                            </ion-content>
+                        </ng-template>
+
+                    </ion-popover>
+                }
+            }
+
+
+        }
+
+    </ion-grid>
+
+</ion-content>

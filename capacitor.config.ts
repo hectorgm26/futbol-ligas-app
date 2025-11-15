@@ -1,9 +1,17 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'futbol-ligas-app',
-  webDir: 'www'
+  appId: 'com.futbolligas.app',
+  appName: 'Clasificacion Ligas',
+  webDir: 'www',
+  android: {
+    adjustMarginsForEdgeToEdge: 'force',
+  },
+  plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
+  },
 };
 
 export default config;

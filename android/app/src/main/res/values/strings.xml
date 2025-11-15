@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Clasificacion Ligas</string>
+    <string name="title_activity_main">Clasificacion Ligas</string>
+    <string name="package_name">com.futbolligas.app</string>
+    <string name="custom_url_scheme">com.futbolligas.app</string>
+</resources>
